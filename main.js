@@ -1,6 +1,7 @@
 "use strict";
 
 //setup!
+ga('send', 'event', 'Save', 'savegame', 'savegame');
 fixedColors.forEach((value,key) => {
     gameData.colorLibrary.push(new UnlockedColors(key,value));
 });
@@ -22,6 +23,15 @@ function mainLoop() {
     const deltaTime = Date.now()-gameData.lastTime;
     gameData.lastTime = Date.now();
     gameData.addTime(deltaTime);
+    gaTrack(deltaTime);
+}
+
+let gaTrackTime = 0;
+function gaTrack(ms) {
+    gaTrackTime += ms;
+    if (gaTrackTime < 600000) return;
+    ga('send', 'event', 'Save', 'savegame', 'savegame');
+    gaTrackTime = 0;
 }
 
 function saveGame() {
